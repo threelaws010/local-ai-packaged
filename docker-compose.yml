@@ -286,11 +286,13 @@ services:
     volumes:
       - langfuse_minio_data:/data
     healthcheck:
-      test: ["CMD", "mc", "ready", "local"]
+      test: ["CMD-SHELL", "curl -fsS http://localhost:9000/minio/health/ready || exit 1"]
+      #test: ["CMD", "mc", "ready", "local"]
       interval: 1s
       timeout: 5s
       retries: 5
       start_period: 1s
+    
 
   postgres:
     image: postgres:${POSTGRES_VERSION:-latest}
